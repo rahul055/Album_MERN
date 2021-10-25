@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Posts from "./components/Posts";
+import Form from "./components/Form";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div className="container mx-auto ">
+        <div className=" mt-8 border-gray-200 border-2 border-opacity-50 h-12 w-full rounded-lg shadow-md text-center align-center text-5xl font-bold text-purple-500">
+          Album
+        </div>
+        {/* <img src={memories} alt="" /> */}
+        <div className="mt-10 grid grid-cols-3 gap-6">
+          <div className="col-span-2 bg-yellow-100">
+            <Posts />
+          </div>
+          <div className="bg-indigo-600">
+            <Form />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
