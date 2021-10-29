@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Posts from "./components/Posts";
 import Form from "./components/Form";
 import { useDispatch } from "react-redux";
@@ -6,6 +6,8 @@ import { getPosts } from "./actions/posts";
 
 function App() {
   const dispatch = useDispatch();
+
+  const [currentid, setCurrentid] = useState(null);
   useEffect(() => {
     dispatch(getPosts());
   }, [dispatch]);
@@ -19,10 +21,10 @@ function App() {
         {/* <img src={memories} alt="" /> */}
         <div className="mt-6 grid sm:grid-cols-3 md:gap-3 ">
           <div className=" col-span-6 mx-auto sm:col-span-3 lg:col-span-1 bg-gray-50 rounded-xl lg:h-1/2">
-            <Form />
+            <Form currentid={currentid} setCurrentid={setCurrentid} />
           </div>
           <div className="col-span-6 md:gap-4 lg:col-span-2">
-            <Posts />
+            <Posts setCurrentid={setCurrentid} />
           </div>
         </div>
       </div>

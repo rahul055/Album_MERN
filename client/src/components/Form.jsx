@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FileBase from "react-file-base64";
-import { useDispatch } from "react-redux";
-import { CreatePost } from "../actions/posts";
+import { useDispatch, useSelector } from "react-redux";
+import { CreatePost, updatePost } from "../actions/posts";
 
-const Form = () => {
+const Form = ({ currentid, setCurrentid }) => {
   const dispatch = useDispatch();
+  const post = useSelector((state) =>
+    currentid ? state.posts.find((p) => p._id === currentid) : null
+  );
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -12,10 +15,11 @@ const Form = () => {
     tags: "",
     selectedFile: "",
   });
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
 
-  const submithandler = (event) => {
-    event.preventDefault();
-    dispatch(CreatePost(postData));
+  const cleardata = () => {
     setPostData({
       creator: "",
       title: "",
@@ -23,6 +27,18 @@ const Form = () => {
       tags: "",
       selectedFile: "",
     });
+    setCurrentid(null);
+  };
+  const submithandler = (event) => {
+    event.preventDefault();
+    console.log(currentid, "from Form component");
+    if (currentid === 0) {
+      dispatch(CreatePost(postData));
+      cleardata();
+    } else {
+      dispatch(updatePost(currentid, postData));
+      cleardata();
+    }
   };
 
   return (

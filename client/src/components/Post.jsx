@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import moment from "moment";
 
-const Post = ({ post }) => {
+const Post = ({ post, setCurrentid }) => {
   const [isliked, setIsliked] = useState(true);
   const togglebtn = () => setIsliked(!isliked);
+  const btnclk = () => {
+    setCurrentid(post._id);
+    console.log(post._id);
+  };
   return (
     <div>
       <div className="container bg-white rounded-lg border-2 border-opacity-60 overflow-hidden shadow-lg">
@@ -12,7 +16,7 @@ const Post = ({ post }) => {
             <span className="col-span-2 font-mono font-bold text-lg ml-3 text-gray-900">
               {post.creator}
             </span>
-            <button className="ml-auto mr-2">
+            <button className="ml-auto mr-2" onClick={btnclk}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
