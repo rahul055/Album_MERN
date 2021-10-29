@@ -1,4 +1,4 @@
-import PostMessage from "../models/Post";
+import PostMessage from "../models/Post.js";
 
 export const getPosts = async (req, res) => {
   try {
@@ -14,6 +14,7 @@ export const createPost = async (req, res) => {
   const post = req.body;
   const newPost = new PostMessage(post);
   try {
+    await newPost.save();
     res.status(201).json(newPost);
   } catch (error) {
     return res.status(409).json({ message: error });

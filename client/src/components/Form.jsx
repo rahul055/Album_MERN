@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import FileBase from "react-file-base64";
+import { useDispatch } from "react-redux";
+import { CreatePost } from "../actions/posts";
 
 const Form = () => {
+  const dispatch = useDispatch();
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -9,9 +12,10 @@ const Form = () => {
     tags: "",
     selectedFile: "",
   });
-  const submithandler = (e) => {
-    e.preventDefault();
 
+  const submithandler = (event) => {
+    event.preventDefault();
+    dispatch(CreatePost(postData));
     setPostData({
       creator: "",
       title: "",
@@ -20,16 +24,17 @@ const Form = () => {
       selectedFile: "",
     });
   };
+
   return (
     <div>
       <h5 className="text-center text-lg lg:text-2xl font-mono border-b-2">
         Creating a post
       </h5>
-      <form onSubmit className="mx-3 rounded-md my-3">
+      <form onSubmit={submithandler} className="mx-3 rounded-md my-3">
         <input
           type="text"
           className="w-full  border-2 rounded my-2"
-          placeholder="creator"
+          placeholder="Creator"
           value={postData.creator}
           onChange={(e) =>
             setPostData({ ...postData, creator: e.target.value })
@@ -38,14 +43,14 @@ const Form = () => {
         <input
           type="text"
           className="w-full  border-2 rounded my-2"
-          placeholder="title"
+          placeholder="Title"
           value={postData.title}
           onChange={(e) => setPostData({ ...postData, title: e.target.value })}
         />
         <input
           type="text"
           className="w-full  border-2 rounded my-2"
-          placeholder="message"
+          placeholder="Message"
           value={postData.message}
           onChange={(e) =>
             setPostData({ ...postData, message: e.target.value })
@@ -54,7 +59,7 @@ const Form = () => {
         <input
           type="text"
           className="w-full  border-2 rounded my-2"
-          placeholder="tags"
+          placeholder="Tags"
           value={postData.tags}
           onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
         />
@@ -67,12 +72,11 @@ const Form = () => {
             }
           />
         </div>
-        <button
+        <input
+          disabled={!postData}
           type="submit"
-          className="w-full bg-blue-400 mt-4 h-8 font-mono rounded font-bold hover:bg-blue-700 hover:text-gray-400"
-        >
-          submit
-        </button>
+          className="w-full ring-4 bg-blue-400 mt-4 h-8 font-mono rounded font-bold hover:bg-blue-600 text-gray-700 hover:text-white"
+        />
       </form>
     </div>
   );
