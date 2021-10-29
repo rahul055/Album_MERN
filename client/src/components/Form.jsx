@@ -31,20 +31,18 @@ const Form = ({ currentid, setCurrentid }) => {
   };
   const submithandler = (event) => {
     event.preventDefault();
-    console.log(currentid, "from Form component");
-    if (currentid === 0) {
-      dispatch(CreatePost(postData));
-      cleardata();
-    } else {
+    if (currentid) {
       dispatch(updatePost(currentid, postData));
-      cleardata();
+    } else {
+      dispatch(CreatePost(postData));
     }
+    cleardata();
   };
 
   return (
     <div>
       <h5 className="text-center text-lg lg:text-2xl font-mono border-b-2">
-        Creating a post
+        {currentid ? "Updating" : "Creating"} a post
       </h5>
       <form onSubmit={submithandler} className="mx-3 rounded-md my-3">
         <input
@@ -77,7 +75,9 @@ const Form = ({ currentid, setCurrentid }) => {
           className="w-full  border-2 rounded my-2"
           placeholder="Tags"
           value={postData.tags}
-          onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
+          onChange={(e) =>
+            setPostData({ ...postData, tags: e.target.value.split(",") })
+          }
         />
         <div className="">
           <FileBase

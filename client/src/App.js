@@ -10,7 +10,7 @@ function App() {
   const [currentid, setCurrentid] = useState(null);
   useEffect(() => {
     dispatch(getPosts());
-  }, [dispatch]);
+  }, [dispatch, currentid]);
 
   return (
     <div>
