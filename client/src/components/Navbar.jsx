@@ -14,7 +14,7 @@ const Navbar = () => {
           <div className="">
             <img
               className="inline-block h-8 w-8 md:h-10 md:w-10 rounded-full ring-2 ring-white"
-              src="https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+              src="https://firebasestorage.googleapis.com/v0/b/album-9c412.appspot.com/o/images%2F82312ce-7b1b-337d-c874-2086c26126?alt=media&token=19da1e9e-403f-4e85-a236-8dda7bb6c8d3"
               alt=""
               //   src={user.result.imageUrl}
               //   alt={user.result.name}

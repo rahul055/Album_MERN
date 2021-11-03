@@ -1,4 +1,8 @@
 import moment from "moment";
+
+import storage from "../firebase/config";
+import { ref, deleteObject } from "firebase/storage";
+
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../actions/posts";
 
@@ -10,7 +14,17 @@ const Post = ({ post, setCurrentid }) => {
   const likepost = () => {
     dispatch(likePost(post._id));
   };
-  const deletepost = () => dispatch(deletePost(post._id));
+  const deletepost = () => {
+    const deleteref = ref(storage, `images/${post.imageId}`);
+    deleteObject(deleteref)
+      .then(() => {
+        console.log("File has been deleted");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    dispatch(deletePost(post._id));
+  };
   return (
     <div>
       <div className="container bg-white rounded-lg border-2 border-opacity-60 overflow-hidden shadow-lg">

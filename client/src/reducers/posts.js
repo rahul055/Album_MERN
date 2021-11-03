@@ -1,6 +1,6 @@
 import { FETCH_ALL, CREATE, UPDATE, DELETE } from "../constants/reduxConstants";
 
-export default (posts = [], action) => {
+const posts = (posts = [], action) => {
   switch (action.type) {
     case DELETE:
       return posts.filter((post) => post._id !== action.payload);
@@ -14,7 +14,11 @@ export default (posts = [], action) => {
     case CREATE:
       return [...posts, action.payload];
 
+    case "IMAGEID":
+      return [...posts, { ImageID: action.payload }];
+
     default:
       return posts;
   }
 };
+export default posts;

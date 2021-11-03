@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 const Posts = ({ setCurrentid }) => {
   const posts = useSelector((state) => state.posts);
+  console.log(posts);
   return !posts.length ? (
     <h1 className="animate-bounce">Loading...</h1>
   ) : (

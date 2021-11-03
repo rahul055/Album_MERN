@@ -18,7 +18,7 @@ const Home = () => {
     <div className="container mx-auto ">
       <Navbar />
       <div className="mt-6 grid sm:grid-cols-3 md:gap-3 ">
-        <div className=" col-span-6 mx-auto sm:col-span-3 lg:col-span-1 bg-gray-50 rounded-xl lg:h-1/2 p-4">
+        <div className=" col-span-6 mx-auto sm:col-span-3 lg:col-span-1  rounded-xl md:h-1/2 py-6">
           <Form currentid={currentid} setCurrentid={setCurrentid} />
         </div>
         <div className="col-span-6 md:gap-4 lg:col-span-2">
