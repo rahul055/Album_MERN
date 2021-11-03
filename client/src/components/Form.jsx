@@ -3,11 +3,17 @@ import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 import { CreatePost, updatePost } from "../actions/posts";
 
+import { ref, uploadString } from "firebase/storage";
+import storage from "../firebase/config";
+
 const Form = ({ currentid, setCurrentid }) => {
   const dispatch = useDispatch();
+  const storageRef = ref(storage, "images");
+
   const post = useSelector((state) =>
     currentid ? state.posts.find((p) => p._id === currentid) : null
   );
+
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -18,6 +24,15 @@ const Form = ({ currentid, setCurrentid }) => {
   useEffect(() => {
     if (post) setPostData(post);
   }, [post]);
+
+  const firebaseuploadfile = () => {
+    const message4 = postData.selectedFile;
+    uploadString(storageRef, message4, "data_url")
+      .then((snapshot) => {
+        console.log("Uploaded a data_url string!");
+      })
+      .catch((err) => console.log(err));
+  };
 
   const cleardata = () => {
     setPostData({
@@ -31,6 +46,7 @@ const Form = ({ currentid, setCurrentid }) => {
   };
   const submithandler = (event) => {
     event.preventDefault();
+    firebaseuploadfile();
     if (currentid) {
       dispatch(updatePost(currentid, postData));
     } else {

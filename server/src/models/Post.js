@@ -12,7 +12,7 @@ const PostSchema = mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: new Date(),
+    default: new Date().toISOString(),
   },
 });
 
