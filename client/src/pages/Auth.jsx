@@ -1,7 +1,33 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { singin, singup } from "../actions/auth";
 
 const Auth = () => {
   const [isSignup, setIsSignup] = useState(false);
+  console.log(isSignup);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+  const handleInput = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (isSignup) {
+      dispatch(singup(formData, history));
+    } else {
+      dispatch(singin(formData, history));
+    }
+  };
 
   const togglehandle = () => setIsSignup((prev) => !prev);
 
@@ -9,7 +35,7 @@ const Auth = () => {
     <div>
       <div className="py-6">
         <div className="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm">
-          <div className="w-full p-8 ">
+          <form onSubmit={handleSubmit} className="w-full p-8 ">
             <a className="flex items-center justify-center  text-white rounded-lg shadow-md hover:bg-gray-100">
               <div className="px-4 py-3">
                 <svg className="h-6 w-6" viewBox="0 0 40 40">
@@ -50,7 +76,10 @@ const Auth = () => {
                   </label>
                   <input
                     className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
-                    type="email"
+                    name="firstName"
+                    type="text"
+                    onChange={handleInput}
+                    value={formData.firstName}
                   />
                 </div>
                 <div className="mt-2 w-1/2">
@@ -59,7 +88,10 @@ const Auth = () => {
                   </label>
                   <input
                     className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
-                    type="email"
+                    type="text"
+                    name="lastName"
+                    onChange={handleInput}
+                    value={formData.lastName}
                   />
                 </div>
               </div>
@@ -71,6 +103,9 @@ const Auth = () => {
               <input
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="email"
+                name="email"
+                onChange={handleInput}
+                value={formData.email}
               />
             </div>
             <div className="mt-2">
@@ -82,21 +117,16 @@ const Auth = () => {
               <input
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="password"
+                name="password"
+                onChange={handleInput}
+                value={formData.password}
               />
-              {isSignup && (
-                <div className="mt-2">
-                  <label className="block text-gray-700 text-sm font-bold mb-2">
-                    ConfirmPassword
-                  </label>
-                  <input
-                    className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
-                    type="password"
-                  />
-                </div>
-              )}
             </div>
             <div className="mt-8">
-              <button className="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600">
+              <button
+                type="submit"
+                className="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600"
+              >
                 {isSignup ? "Signup" : "Login"}
               </button>
             </div>
@@ -110,7 +140,7 @@ const Auth = () => {
               </button>
               <span className="border-b w-1/5 md:w-1/4"></span>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

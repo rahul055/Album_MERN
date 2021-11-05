@@ -1,13 +1,26 @@
+import React, { useState, useEffect } from "react";
+
 import moment from "moment";
 
 import storage from "../firebase/config";
-import { ref, deleteObject } from "firebase/storage";
+import { ref, deleteObject, getDownloadURL } from "firebase/storage";
 
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../actions/posts";
 
 const Post = ({ post, setCurrentid }) => {
   const dispatch = useDispatch();
+  const [imageUrl, setImageUrl] = useState(null);
+  useEffect(() => {
+    getDownloadURL(ref(storage, `images/${post.imageID}`))
+      .then((url) => {
+        setImageUrl(url);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   const btnclk = () => {
     setCurrentid(post._id);
   };
@@ -15,7 +28,7 @@ const Post = ({ post, setCurrentid }) => {
     dispatch(likePost(post._id));
   };
   const deletepost = () => {
-    const deleteref = ref(storage, `images/${post.imageId}`);
+    const deleteref = ref(storage, `images/${post.imageID}`);
     deleteObject(deleteref)
       .then(() => {
         console.log("File has been deleted");
@@ -45,7 +58,7 @@ const Post = ({ post, setCurrentid }) => {
               </svg>
             </button>
           </div>
-          <img className="" src={post.selectedFile} alt={post.title} />
+          <img className="" src={imageUrl} alt={post.title} />
           <h6 className="text-gray-400 text-sm ml-5 mt-2">
             {moment(post.createdAt).fromNow()}
           </h6>

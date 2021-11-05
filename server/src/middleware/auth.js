@@ -1,27 +1,21 @@
-import User from "../models/User.js";
 import dotenv from "dotenv";
-
-import jwt from "jsonwebtoken";
 dotenv.config();
 
-export default (req, res, next) => {
-  const { authorization } = req.headers;
+import jwt from "jsonwebtoken";
+
+const auth = async (req, res, next) => {
   const JWT_SECRET = process.env.JWTSEC;
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
 
-  if (!authorization)
-    return res.status(401).json({ error: "User must be logged in" });
+    const decodedData = jwt.verify(token, JWT_SECRET);
 
-  const token = authorization.replace("Bearer ", "");
-  jwt.verify(token, JWT_SECRET, (err, payload) => {
-    if (err) return res.status(401).json({ error: "User must be logged in" });
-    const { _id } = payload;
+    req.userId = decodedData?.id;
 
-    User.findById(_id).then((userdata) => {
-      req.user = userdata;
-      next();
-    });
-
-    // const userid = await User.findById(_id);
-    // req.user = userid;
-  });
+    next();
+  } catch (error) {
+    console.log(error);
+  }
 };
+
+export default auth;
