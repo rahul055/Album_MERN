@@ -1,10 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import decode from "jwt-decode";
 
 const Navbar = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const dispatch = useDispatch();
+
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+    setUser(null);
+  };
+  useEffect(() => {
+    const token = user?.token;
+    if (token) {
+      const decodedToken = decode(token);
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+    }
+  }, [user]);
+
   return (
     <div className="border-0 shadow-none mt-5 bg-white border-gray-200 sm:border-2 border-opacity-50 h-8  w-full rounded-lg sm:shadow-md  font-mono flex justify-between overflow-hidden">
       <div className="justify-start">
@@ -25,12 +39,9 @@ const Navbar = () => {
             </span>
             <button
               className="md:py-0 md:px-0 mr-1 text-red-500 text-sm py-2 rounded-2xl hover:bg-gray-100 uppercase"
-              onClick={() => {
-                dispatch({ type: "LOGOUT" });
-                setUser(null);
-              }}
+              onClick={logout}
             >
-              logout
+              Logout
             </button>
           </div>
         ) : (
