@@ -17,6 +17,6 @@ app.use("/auth", userRoute);
 mongoose.connect(process.env.MONGO_URI, () => {
   console.log("connected to DB");
 });
-app.listen(process.env.PORT, () =>
+app.listen(process.env.PORT || 5050, () =>
   console.log("server is running on localhost" + process.env.PORT)
 );
