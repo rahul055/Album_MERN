@@ -29,7 +29,7 @@ const Form = ({ currentid, setCurrentid }) => {
 
   useEffect(() => {
     if (post) setPostData(post);
-  }, [post]);
+  }, [post, localStorage.getItem("profile")]);
 
   const firebaseuploadfile = async () => {
     const baseimagedata = imageData;
@@ -63,12 +63,21 @@ const Form = ({ currentid, setCurrentid }) => {
     event.preventDefault();
     if (currentid) {
       dispatch(updatePost(currentid, postData));
+      cleardata();
     } else {
       firebaseuploadfile();
+      cleardata();
     }
     cleardata();
   };
 
+  if (!username?.result) {
+    return (
+      <div className="text-2xl text-gray-600 bg-gray-50 px-2 rounded-lg font-bold text-center font-mono ">
+        Please Login to Create Posts
+      </div>
+    );
+  }
   return (
     <div>
       <h5 className="text-center text-lg lg:text-2xl font-mono border-b-2 bg-gray-50">

@@ -8,7 +8,7 @@ const Navbar = () => {
   return (
     <div className="border-0 shadow-none mt-5 bg-white border-gray-200 sm:border-2 border-opacity-50 h-8  w-full rounded-lg sm:shadow-md  font-mono flex justify-between overflow-hidden">
       <div className="justify-start">
-        <span className="md:ml-4 text-2xl my-auto justify-center text-center font-bold text-blue-400 ">
+        <span className="md:ml-4 text-2xl my-auto justify-center text-center font-bold text-red-400 ">
           ALBUM
         </span>
       </div>
