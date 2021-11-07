@@ -17,7 +17,7 @@ const Navbar = () => {
       const decodedToken = decode(token);
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
-  }, [user]);
+  }, [user, logout]);
 
   return (
     <div className="border-0 shadow-none mt-5 bg-white border-gray-200 sm:border-2 border-opacity-50 h-8  w-full rounded-lg sm:shadow-md  font-mono flex justify-between overflow-hidden">
